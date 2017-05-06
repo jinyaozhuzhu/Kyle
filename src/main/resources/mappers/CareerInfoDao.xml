@@ -1,0 +1,48 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imd.dao.CareerInfoDao">
+
+    <sql id="careerColumns">
+        a.id as "id",
+        a.url as "url",
+        a.title as "title",
+        a.career_name as "carrerName",
+        a.end_date as "endDate",
+        a.end_milli as "endMilli",
+        a.start_date as "startDate",
+        a.start_milli as "startMilli",
+        a.content as "content",
+        a.school as "school"
+    </sql>
+    <select id="findList" resultType="CareerInfo">
+        SELECT
+            <include refid="careerColumns"/>
+        FROM kylx a
+        <where>
+            <if test="title != null">
+                AND a.title LIKE concat('%',#{title},'%')
+            </if>
+            <if test="school!=null">
+                AND a.school LIKE concat('%',#{school},'%')
+            </if>
+            <if test="content !=null">
+                AND a.content LIKE concat('%',#{content},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findById" resultType="CareerInfo">
+        SELECT
+        <include refid="careerColumns"/>
+        FROM kylx a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findAllList" resultType="CareerInfo">
+        SELECT
+        <include refid="careerColumns"/>
+        FROM kylx a
+    </select>
+</mapper>

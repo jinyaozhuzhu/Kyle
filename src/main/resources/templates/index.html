@@ -1,0 +1,73 @@
+<!DOCTYPE html >
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>招聘信息</title>
+    <meta name="robots" content="index, follow">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" href="link/main.css">
+    <script src="lib/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="lib/bootstrap.min.css"/>
+</head>
+<style>
+    .col-center-block {
+        float: none;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<body>
+
+<div class="sidebar">
+    <header class="sidebar__logo" role="banner">
+        <span style="font-size: 20px">武汉高校招聘信息</span>
+    </header>
+    <nav class="sidebar__nav">
+        <h3 class="section__header" style="font-size: x-large">学校</h3>
+        <ul class="section__links">
+            <li><a href="" class="section__link" style="font-size: large">武汉大学</a></li>
+            <li><a href="" class="section__link" style="font-size: large">华中科技大学</a></li>
+            <li><a href="" class="section__link" style="font-size: large">华中师范大学</a></li>
+            <li><a href="" class="section__link" style="font-size: large">武汉理工大学</a></li>
+        </ul>
+    </nav>
+</div>
+<div class="content__overlay"></div>
+<main class="content__area" role="main" >
+    <div class="content" id="App">
+        <div class="home-banner">
+            <div class="input-group col-md-7" class="col-xs-6 col-md-4 col-center-block" style="margin-top:40px " positon ="relative">
+                <input type="text" class="form-control"placeholder="公司名 职位名 学校名"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-info btn-search">查找</button>
+                </span>
+            </div>
+        </div>
+        <div>
+            <!--用于渲染匹配的组件-->
+            <router-view></router-view>
+        </div>
+    </div>
+</main>
+<!--显示主页和检索结果-->
+<template id="index">
+    <ul v-for="item in page.list">
+        <li style="font-size: 18px">
+            <a href=""> {{item.title}}</a>
+        </li>
+    </ul>
+</template>
+<template id="detail">
+    <dvi v-html="item.content"></dvi>
+</template>
+</body>
+<script src="vue/vue.js"></script>
+<script src="vue/vue-resource.js"></script>
+<script src="vue/vue-router.js"></script>
+<script src="link/index.js"></script>
+</html>
