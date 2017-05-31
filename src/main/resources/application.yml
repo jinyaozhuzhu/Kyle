@@ -16,6 +16,10 @@ spring:
       max-idle: 8
       min-idle: 0
     timeout:  0
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
 
 mybatis:
   type-aliases-package: com.imd.entity
@@ -29,4 +33,12 @@ pagehelper:
     reasonable: true
     supportMethodsArguments: true
 
+logging:
+  level:
+    root: info
+    com:
+      imd:
+        dao: debug
+  pattern:
+    console: d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n
 

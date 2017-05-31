@@ -5,7 +5,6 @@ import com.github.pagehelper.PageInfo;
 import com.imd.dao.CareerInfoDao;
 import com.imd.entity.CareerInfo;
 import com.imd.lucene.Searcher;
-import com.imd.util.MyPageInfo;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,8 +78,7 @@ public class CareerInfoService {
                                          Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<CareerInfo> careerInfos = careerInfoDao.findList(careerInfo);
-        PageInfo<CareerInfo> pageInfo = new PageInfo<>(careerInfos);
-        return pageInfo;
+        return new PageInfo<>(careerInfos);
     }
 
     /**
@@ -91,20 +89,20 @@ public class CareerInfoService {
      * @param pageSize
      * @return
      */
-    public MyPageInfo<CareerInfo> findByKeyWord(String keyWord, Integer pageNum,
-                                                Integer pageSize) throws IOException, ParseException {
-        ValueOperations<String, List<CareerInfo>> valueOperations = redisTemplate.opsForValue();
-        List<CareerInfo> careerInfos;
+    public PageInfo<CareerInfo> findByKeyWord(String keyWord, Integer pageNum,
+                                              Integer pageSize) throws IOException, ParseException {
+        ValueOperations<String, List<String>> valueOperations = redisTemplate.opsForValue();
+        List<String> ids;
         if (redisTemplate.hasKey(keyWord)) {
-            careerInfos = valueOperations.get(keyWord);
-            LOGGER.info("from Cache");
+            ids = valueOperations.get(keyWord);
+            LOGGER.info("from Cache {}",ids);
         } else {
-            careerInfos = searcher.dimQuery(keyWord);
-            valueOperations.set(keyWord, careerInfos, 2, TimeUnit.HOURS);
-            LOGGER.info("from database");
+            ids= searcher.dimQuery(keyWord);
+            valueOperations.set(keyWord, ids, 2, TimeUnit.HOURS);
+            LOGGER.info("from database {}",ids);
         }
-        MyPageInfo<CareerInfo> pageInfo = new MyPageInfo<CareerInfo>(pageNum, pageSize,careerInfos);
-        pageInfo.setKeyWord(keyWord);
-        return pageInfo;
+        PageHelper.startPage(pageNum, pageSize);
+        List<CareerInfo> careerInfos = careerInfoDao.findByIds(ids);
+        return new PageInfo<>(careerInfos);
     }
 }

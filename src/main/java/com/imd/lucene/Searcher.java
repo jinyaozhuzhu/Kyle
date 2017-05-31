@@ -27,25 +27,20 @@ import java.util.List;
 @Service
 public class Searcher {
 
-    private static final String searchField = "title";
+    private static final String searchField = "content";
     private static final int queryNum = 50;
 
-    public List<CareerInfo> dimQuery(String keyWord)
+    public List<String> dimQuery(String keyWord)
             throws ParseException, IOException {
         QueryParser parser = new QueryParser(searchField, new SmartChineseAnalyzer());
         Query query = parser.parse(keyWord);
         IndexSearcher indexSearcher = this.initIndexSearcher();
 
-        List<CareerInfo> careerInfos = new ArrayList<>();
+        List<String> careerInfos = new ArrayList();
         TopDocs topDocs = indexSearcher.search(query, queryNum);
         for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
             Document document = indexSearcher.doc(scoreDoc.doc);
-            CareerInfo careerInfo = new CareerInfo(
-                    Integer.parseInt(document.get("id")), null, document.get("title"),
-                    null, null, null, null,
-                    null, null, document.get("school")
-            );
-            careerInfos.add(careerInfo);
+            careerInfos.add(document.get("id"));
         }
         return careerInfos;
     }

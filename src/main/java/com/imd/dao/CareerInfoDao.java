@@ -1,6 +1,7 @@
 package com.imd.dao;
 
 import com.imd.entity.CareerInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface CareerInfoDao{
     CareerInfo findById(Integer id);
 
     List<CareerInfo> findAllList();
+
+    List<CareerInfo> findByIds(@Param("ids") List ids);
 }
