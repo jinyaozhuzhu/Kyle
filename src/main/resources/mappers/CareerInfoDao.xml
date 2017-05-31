@@ -18,16 +18,16 @@
     </sql>
     <select id="findList" resultType="CareerInfo">
         SELECT
-            <include refid="careerColumns"/>
+        <include refid="careerColumns"/>
         FROM kylx a
         <where>
-            <if test="title != null">
+            <if test="title != null and title!=''">
                 AND a.title LIKE concat('%',#{title},'%')
             </if>
-            <if test="school!=null">
+            <if test="school!=null and school!=''">
                 AND a.school LIKE concat('%',#{school},'%')
             </if>
-            <if test="content !=null">
+            <if test="content !=null and content!=''">
                 AND a.content LIKE concat('%',#{content},'%')
             </if>
         </where>
@@ -44,5 +44,17 @@
         SELECT
         <include refid="careerColumns"/>
         FROM kylx a
+    </select>
+
+    <select id="findByIds" resultType="CareerInfo">
+        SELECT
+        <include refid="careerColumns"/>
+        FROM kylx a
+        <where>
+            id in
+            <foreach collection="ids" item="id" index="index"
+                     open="(" separator="," close=")">#{id}
+            </foreach>
+        </where>
     </select>
 </mapper>
