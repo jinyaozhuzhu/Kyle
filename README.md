@@ -7,3 +7,4 @@
 5. mysql做后端数据库
 6. jsp作为视图层模板
 7. jquery和boostrap前端工具
+8.信息抓取使用python的scrapy写的，代码在[这里](https://github.com/jinyaozhuzhu/kylx-crawl)
